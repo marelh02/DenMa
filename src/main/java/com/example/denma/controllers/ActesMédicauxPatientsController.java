@@ -1,0 +1,265 @@
+package com.example.denma.controllers;
+
+import com.example.denma.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
+import java.io.IOException;
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.ResourceBundle;
+
+
+
+public class ActesMédicauxPatientsController implements Initializable{
+    Stage AMPCStage=null;
+    @FXML
+    private RadioButton acteEnCours;
+
+    @FXML
+    private RadioButton acteTérminé;
+
+    @FXML
+    private Button ajouterIntervention;
+
+    @FXML
+    private Button ajouterRadio;
+
+    @FXML
+    private DatePicker case_dateDébut;
+
+    @FXML
+    private DatePicker case_dateFin;
+
+    @FXML
+    private TextField case_idSoin;
+
+    @FXML
+    private TextField case_prixComptabilisé;
+
+    @FXML
+    private Button sauvegarderModif;
+
+    @FXML
+    private Button printButton;
+    
+    //////////////////////LES TABLES/////////////////////////////////
+
+    @FXML
+    private TableColumn<Intervention,Void> coli_act;
+
+    @FXML
+    private TableColumn<Intervention, LocalDate> coli_dp;
+
+    @FXML
+    private TableColumn<Intervention,LocalDate> coli_dr;
+
+    @FXML
+    private TableColumn<Intervention,String> coli_erv;
+
+    @FXML
+    private TableColumn<Intervention,String> coli_id;
+
+    @FXML
+    private TableView<Intervention> interventions_TV;
+    ////////
+    @FXML
+    private TableColumn<Radio,Void> colr_act;
+
+    @FXML
+    private TableColumn<Radio,String> colr_chem;
+
+    @FXML
+    private TableColumn<Radio,LocalDate> colr_dr;
+
+    @FXML
+    private TableColumn<Radio,String> colr_id;
+    
+    @FXML
+    private TableView<Radio> radios_TV;
+
+    ///////////séction des médicaments////
+
+    @FXML
+    private TableView<Médicaments> med_TV;
+
+    @FXML
+    private Button med_delete;
+
+    @FXML
+    private ChoiceBox<String> med_type;
+
+    @FXML
+    private ChoiceBox<String> med_nom;
+
+    @FXML
+    private Button med_pop;
+
+    /////////////////////////////////////////
+
+    ObservableList<Intervention> interventionsList = FXCollections.observableArrayList();
+    ObservableList<Radio> radiosList = FXCollections.observableArrayList();
+    Patient patient;
+
+    ActeMedPat amp=null;
+    int numeroActe;
+
+    FicheMédicalePatientController fmpc=null;
+
+    public ActesMédicauxPatientsController(Patient patient,int na,ActeMedPat amp,FicheMédicalePatientController fmpc) {
+        numeroActe=na;
+        this.patient=patient;
+        this.amp=amp;
+        this.fmpc=fmpc;
+        AMPCStage=new Stage();
+        try{
+
+            FXMLLoader DMCLoader = new FXMLLoader(HelloApplication.class.getResource("actesMédicauxPatient.fxml"));
+            DMCLoader.setController(this);
+            AMPCStage.setScene(new Scene(DMCLoader.load()));
+            AMPCStage.setTitle("Acte médicale de ");
+            AMPCStage.getIcons().add(new Image("DenMa.png"));
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void initialize(URL location, ResourceBundle resources){
+        ToggleGroup group = new ToggleGroup();
+        acteTérminé.setToggleGroup(group);
+        acteEnCours.setToggleGroup(group);
+        if(amp!=null)
+        {
+            ActeMedicale am=amp.getActeMedicale();
+            if(am!=null)
+            {
+                case_idSoin.setText(am.getIDSoin());
+                case_dateDébut.setValue(am.getDebutSoin());
+                case_prixComptabilisé.setText("0"+am.getPrixComptabilise());
+                if (am.getEtatActe().equals("En cours")) acteEnCours.setSelected(true);
+                else if (am.getEtatActe().equals("Terminé")) acteTérminé.setSelected(true);
+                case_dateFin.setValue(am.getFinSoin());
+            }
+        }
+        else
+        {
+            amp=new ActeMedPat(new ActeMedicale(patient.getIDPatient()+"AM"+numeroActe,LocalDate.now(),0,"En cours",LocalDate.now()),null,null,null);
+            case_idSoin.setText(amp.getActeMedicale().getIDSoin());
+            acteEnCours.setSelected(true);
+            case_dateDébut.setValue(LocalDate.now());
+            case_prixComptabilisé.setText("0");
+        }
+        sauvegarderModif.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                modificationsActe();
+            }
+        });
+        ajouterRadio.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {ajouterRadioButtonEvent();}
+        });
+        ajouterIntervention.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {ajouterInterventionButtonEvent();}
+        });
+        printButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {imprimerOrdonnace();}
+        });
+        initTables();
+    }
+
+    public void showStage(){AMPCStage.show();}
+
+    public void modificationsActe(){
+        String étatActe=acteEnCours.isSelected()?"En cours":acteTérminé.isSelected()?"Terminé":"Inconnue";
+        amp=new ActeMedPat(new ActeMedicale(case_idSoin.getText(),
+                case_dateDébut.getValue(),
+                Double.valueOf(case_prixComptabilisé.getText()),
+                étatActe,
+                case_dateFin.getValue()),amp==null?null:amp.getInterventions(),
+                amp==null?null:amp.getRadios(),amp==null?null:amp.getMédicaments());
+        if (FichMedPat.trouverActeMedPat(patient.getIDPatient(),amp.getActeMedicale().getIDSoin())!=null)
+            FichMedPat.modifierActeMedPat(patient.getIDPatient(),amp);
+        else
+            FichMedPat.insérerNouveauActeMedPat(patient.getIDPatient(),amp);
+        fmpc.refreshfmp();
+        AMPCStage.close();
+    }
+
+    public void refreshAMP(ActeMedPat neoAMP){
+        amp=neoAMP;
+        fillRadiosList();
+        fillInterventionsList();
+        if (FichMedPat.trouverActeMedPat(patient.getIDPatient(),amp.getActeMedicale().getIDSoin())!=null)
+            FichMedPat.modifierActeMedPat(patient.getIDPatient(),amp);
+        else
+            FichMedPat.insérerNouveauActeMedPat(patient.getIDPatient(),amp);
+        fmpc.refreshfmp();
+    }
+
+    public void initTables() {
+        coli_act.setCellFactory(tc->new ActionsInterventions<>(this,amp));
+        coli_dp.setCellValueFactory(new PropertyValueFactory<>("DatePrevue"));
+        coli_dr.setCellValueFactory(new PropertyValueFactory<>("DateReelle"));
+        coli_erv.setCellValueFactory(new PropertyValueFactory<>("EtatRV"));
+        coli_id.setCellValueFactory(new PropertyValueFactory<>("IDIntervention"));
+        ////LES RADIOS
+        colr_act.setCellFactory(tc->new ActionsRadios<>(this,amp));
+        colr_chem.setCellValueFactory(new PropertyValueFactory<>("Cheminimage"));
+        colr_dr.setCellValueFactory(new PropertyValueFactory<>("DateRadio"));
+        colr_id.setCellValueFactory(new PropertyValueFactory<>("IDRadio"));
+        fillInterventionsList();
+        fillRadiosList();
+        radios_TV.setItems(radiosList);
+        interventions_TV.setItems(interventionsList);
+    }
+
+    public void fillInterventionsList(){
+        if (amp.getInterventions()!=null)
+        {
+            interventionsList.clear();
+            interventionsList.addAll(amp.getInterventions());
+            case_prixComptabilisé.setText(""+prixTot());
+            ActeMedicale am=amp.getActeMedicale();
+            am.setPrixComptabilise(prixTot());
+            amp.setActeMedicale(am);
+        }
+
+    }
+
+    public void fillRadiosList(){
+        if (amp.getRadios()!=null)
+        {
+            radiosList.clear();
+            radiosList.addAll(amp.getRadios());
+        }
+    }
+
+    public void ajouterRadioButtonEvent() {new RadioFXMLController(this,amp,null).showStage();}
+
+    public void ajouterInterventionButtonEvent() {new InterventionFXMLController(amp,this,null).showStage();}
+
+    public void imprimerOrdonnace() {
+        String[] list=DenMaCore.getDentisteCabinetData();
+        if (list!=null) DenMaStatsNDocs.writeOrdonnance(list[0],list[1],list[2],list[3],patient,amp);
+        else System.out.println("Données de la clinique introuvables");
+    }
+
+    public double prixTot() {
+        double prixTotal=0;
+        for (Intervention intervention: interventionsList) prixTotal+=intervention.getPrixBase();
+        return prixTotal;
+    }
+}

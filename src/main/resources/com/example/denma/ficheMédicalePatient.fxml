@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="556.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <GridPane layoutX="20.0" layoutY="107.0" prefHeight="144.0" prefWidth="497.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Nom complet:" GridPane.rowIndex="1">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="10.0" layoutY="26.0" text="ID du patient:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label text="Type couverture médicale:" GridPane.rowIndex="2">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Text fx:id="idPatient" strokeType="OUTSIDE" strokeWidth="0.0" text="666" GridPane.columnIndex="1">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text fx:id="nomPrénom" strokeType="OUTSIDE" strokeWidth="0.0" text="John Doe" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Text>
+            <Text fx:id="typeCouvertureMéd" strokeType="OUTSIDE" strokeWidth="0.0" text="Mutuelle" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+         </children>
+      </GridPane>
+      <Label layoutX="14.0" layoutY="14.0" text="Fiche médicale du patient">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <TableView fx:id="actesMédicauxTV" layoutX="-6.0" layoutY="321.0" prefHeight="200.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="321.0">
+        <columns>
+          <TableColumn fx:id="col_idSoin" prefWidth="75.0" text="ID soin" />
+          <TableColumn fx:id="col_debutSoin" prefWidth="75.0" text="Debut soin" />
+            <TableColumn fx:id="col_prixComptabilisé" prefWidth="116.0" text="Prix comptabilisé" />
+            <TableColumn fx:id="col_etatActe" minWidth="0.0" prefWidth="141.0" text="Etat de l'acte" />
+            <TableColumn fx:id="col_finDeSoin" minWidth="0.0" prefWidth="141.0" text="Date fin de soin" />
+            <TableColumn fx:id="col_actions" minWidth="0.0" prefWidth="151.0" text="actions" />
+        </columns>
+      </TableView>
+      <Button fx:id="ajouterActeMed" layoutX="14.0" layoutY="263.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="36.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="263.0">
+         <graphic>
+            <ImageView fitHeight="43.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../plus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+   </children>
+</AnchorPane>

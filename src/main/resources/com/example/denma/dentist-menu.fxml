@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<SplitPane dividerPositions="0.2159383033419023" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="780.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+  <items>
+    <AnchorPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="211.0" prefWidth="992.0">
+         <children>
+            <Circle fill="DODGERBLUE" layoutX="97.0" layoutY="78.0" radius="70.0" stroke="BLACK" strokeType="INSIDE" />
+            <ImageView fitHeight="100.0" fitWidth="107.0" layoutX="47.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../dentiste.png" />
+               </image>
+            </ImageView>
+         </children></AnchorPane>
+      <TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="615.0" prefWidth="992.0" side="LEFT" stylesheets="@../../../tabStyle.css" tabClosingPolicy="UNAVAILABLE">
+         <tabs>
+            <Tab>
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="337.0" prefWidth="923.0">
+                     <children>
+                        <TableView fx:id="usersTable" layoutX="46.0" layoutY="82.0" prefHeight="526.0" prefWidth="736.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="164.0" AnchorPane.topAnchor="82.0">
+                           <columns>
+                              <TableColumn fx:id="pseudo" prefWidth="262.0" text="pseudo" />
+                              <TableColumn fx:id="mdp" prefWidth="317.0" text="mot de passe" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="412.0" text="Liste des comptes des assistants" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+                           <font>
+                              <Font size="27.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="576.0" layoutY="261.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="138.0" text="ajouter un assistant" AnchorPane.rightAnchor="12.0" />
+                        <Button layoutX="576.0" layoutY="309.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="137.0" text="chercher un assistant" AnchorPane.rightAnchor="12.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../utilisateurs.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Tab>
+            <Tab>
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="391.0" prefWidth="559.0">
+                     <children>
+                        <TableView fx:id="table_patients" layoutX="-46.0" layoutY="146.0" prefHeight="360.0" prefWidth="694.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="146.0">
+                           <columns>
+                              <TableColumn fx:id="col_idPatient" prefWidth="59.0" text="idPatient" />
+                              <TableColumn fx:id="col_dateNaissance" prefWidth="87.0" text="dateNaissance" />
+                              <TableColumn fx:id="col_cin" minWidth="0.0" prefWidth="72.0" text="cin" />
+                              <TableColumn fx:id="col_nom" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="91.0" text="nom" />
+                              <TableColumn fx:id="col_prenom" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="65.0" text="prénom" />
+                              <TableColumn fx:id="col_sexe" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="0.0" text="sexe" />
+                              <TableColumn fx:id="col_couvertureMedicale" maxWidth="1.7976931348623157E308" prefWidth="20.0" text="couverture médicale">
+                                 <columns>
+                                    <TableColumn fx:id="col_idcm" prefWidth="94.0" text="ID couverture" />
+                                    <TableColumn fx:id="col_typecm" prefWidth="56.0" text="type" />
+                                 </columns>
+                              </TableColumn>
+                              <TableColumn fx:id="col_actions" maxWidth="1.7976931348623157E308" prefWidth="309.0" text="actions" />
+                           </columns>
+                        </TableView>
+                        <Label layoutX="14.0" layoutY="25.0" prefHeight="17.0" prefWidth="283.0" text="Gestion des patients">
+                           <font>
+                              <Font size="28.0" />
+                           </font>
+                        </Label>
+                        <TextField layoutX="31.0" layoutY="96.0" prefHeight="25.0" prefWidth="169.0" />
+                        <Button fx:id="ajouterNouveauPatient" layoutX="574.0" layoutY="67.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0">
+                           <graphic>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../add-group.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <MenuButton layoutX="234.0" layoutY="96.0" mnemonicParsing="false" text="Filtrer les patients">
+                           <items>
+                              <MenuItem mnemonicParsing="false" text="Action 1" />
+                              <MenuItem mnemonicParsing="false" text="Action 2" />
+                           </items>
+                        </MenuButton>
+                     </children>
+                  </AnchorPane>
+               </content>
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../patient.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Tab>
+            <Tab>
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="radLV" layoutX="26.0" layoutY="87.0" prefHeight="373.0" prefWidth="251.0" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="150.0" />
+                        <Label layoutX="20.0" layoutY="124.0" text="Types de radios disponibles:" AnchorPane.topAnchor="124.0" />
+                        <PieChart fx:id="radioStats" layoutX="566.0" layoutY="150.0" prefHeight="458.0" prefWidth="334.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0" />
+                        <GridPane layoutX="32.0" layoutY="542.0" prefHeight="52.0" prefWidth="140.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Button fx:id="secRad_sb" mnemonicParsing="false" prefHeight="46.0" prefWidth="51.0">
+                                 <graphic>
+                                    <ImageView fitHeight="40.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../disquette.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Button fx:id="secRad_rb" mnemonicParsing="false" prefHeight="46.0" prefWidth="51.0" GridPane.columnIndex="1">
+                                 <graphic>
+                                    <ImageView fitHeight="40.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../supprimer.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </GridPane>
+                        <Label layoutX="604.0" layoutY="124.0" text="Répartition des radios préscrits aux clients:" AnchorPane.rightAnchor="71.0" AnchorPane.topAnchor="124.0" />
+                        <Label layoutX="14.0" layoutY="33.0" text="Gestion des radios:" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
+                           <font>
+                              <Font name="Algerian" size="40.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="400.0" layoutY="351.0" text="Description:" />
+                        <TextArea fx:id="secRad_descta" layoutX="287.0" layoutY="377.0" prefHeight="140.0" prefWidth="288.0" />
+                        <Label layoutX="388.0" layoutY="280.0" text="Nom du radio:" />
+                        <Label layoutX="395.0" layoutY="204.0" text="ID du radio:" />
+                        <TextField fx:id="secRad_idtf" layoutX="281.0" layoutY="237.0" prefHeight="25.0" prefWidth="268.0" />
+                        <TextField fx:id="secRad_nomtf" layoutX="306.0" layoutY="312.0" prefHeight="25.0" prefWidth="250.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../scanner.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Tab>
+            <Tab>
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="interventionLV" layoutX="23.0" layoutY="153.0" prefHeight="370.0" prefWidth="283.0" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="150.0" />
+                        <Label layoutX="20.0" layoutY="112.0" prefHeight="28.0" prefWidth="268.0" text="Catégories d'interventions disponibles:" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="112.0" />
+                        <PieChart fx:id="interventionsStats" layoutX="559.0" layoutY="167.0" prefHeight="441.0" prefWidth="313.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="167.0" />
+                        <GridPane layoutX="24.0" layoutY="535.0" prefHeight="52.0" prefWidth="140.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Button fx:id="secInt_sb" mnemonicParsing="false" prefHeight="46.0" prefWidth="51.0">
+                                 <graphic>
+                                    <ImageView fitHeight="40.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../disquette.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Button fx:id="secInt_rb" mnemonicParsing="false" prefHeight="46.0" prefWidth="51.0" GridPane.columnIndex="1">
+                                 <graphic>
+                                    <ImageView fitHeight="40.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../supprimer.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </GridPane>
+                        <Label layoutX="605.0" layoutY="118.0" text="Répartition des interventions préscrites aux patients:" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="118.0" />
+                        <Label layoutX="13.0" layoutY="14.0" text="Gestion des interventions:" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
+                           <font>
+                              <Font name="Algerian" size="40.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="secInt_idtf" layoutX="363.0" layoutY="207.0" />
+                        <Label layoutX="409.0" layoutY="159.0" text="ID catégorie:" />
+                        <TextField fx:id="secInt_typetf" layoutX="363.0" layoutY="324.0" />
+                        <Label layoutX="409.0" layoutY="287.0" text="Type:" />
+                        <Label layoutX="409.0" layoutY="396.0" text="Prix base:" />
+                        <TextField fx:id="secInt_prixtf" layoutX="342.0" layoutY="421.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../acte-med.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Tab>
+            <Tab>
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" text="DenMa Stats:" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
+                           <font>
+                              <Font name="Algerian" size="60.0" />
+                           </font>
+                        </Label>
+                        <GridPane layoutX="102.0" layoutY="261.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="100.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="284.0" minWidth="10.0" prefWidth="198.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="382.0" minWidth="10.0" prefWidth="349.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="260.0" minWidth="10.0" prefWidth="237.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="216.0" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="465.0" minHeight="10.0" prefHeight="454.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Pourcentage des clients par sex:" />
+                              <Label text="Evolution des clients au cours du temps:" GridPane.columnIndex="1" />
+                              <Label text="Soins actifs VS soins téminés:" GridPane.columnIndex="2" />
+                              <LineChart fx:id="clientEvo" prefHeight="270.0" prefWidth="340.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <xAxis>
+                                  <CategoryAxis label="Temps" side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis label="Nbre de patients" side="LEFT" />
+                                </yAxis>
+                              </LineChart>
+                              <PieChart fx:id="soinsPieChart" prefHeight="250.0" prefWidth="300.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <PieChart fx:id="sexPieChart" prefHeight="250.0" prefWidth="276.0" GridPane.rowIndex="1" />
+                           </children>
+                        </GridPane>
+                        <Button fx:id="deleteStats" layoutX="450.0" layoutY="26.0" mnemonicParsing="false">
+                           <graphic>
+                              <ImageView fitHeight="40.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../supprimer.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children></AnchorPane>
+               </content>
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../statistiques.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Tab>
+            <Tab>
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="medSec_antalgiques" layoutX="685.0" layoutY="328.0" prefHeight="173.0" prefWidth="215.0" AnchorPane.bottomAnchor="107.0" AnchorPane.leftAnchor="685.0" AnchorPane.topAnchor="328.0" />
+                        <GridPane layoutX="24.0" layoutY="535.0" prefHeight="52.0" prefWidth="140.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Button fx:id="medSec_sauvb" mnemonicParsing="false" prefHeight="46.0" prefWidth="51.0">
+                                 <graphic>
+                                    <ImageView fitHeight="40.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../disquette.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Button fx:id="medSec_delb" mnemonicParsing="false" prefHeight="46.0" prefWidth="51.0" GridPane.columnIndex="1">
+                                 <graphic>
+                                    <ImageView fitHeight="40.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../supprimer.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </GridPane>
+                        <Label layoutX="13.0" layoutY="14.0" text="Gestion des Médicaments:" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
+                           <font>
+                              <Font name="Algerian" size="40.0" />
+                           </font>
+                        </Label>
+                        <ListView fx:id="medSec_antiinflammatoire" layoutX="671.0" layoutY="70.0" prefHeight="173.0" prefWidth="215.0" />
+                        <ListView fx:id="medSec_bainsbouches" layoutX="414.0" layoutY="341.0" prefHeight="173.0" prefWidth="215.0" />
+                        <ListView fx:id="medSec_antibiotiques" layoutX="414.0" layoutY="70.0" prefHeight="173.0" prefWidth="215.0" />
+                        <Label layoutX="590.0" layoutY="158.0" rotate="-90.0" text="Les anti-inflammatoires" />
+                        <Label layoutX="620.0" layoutY="374.0" rotate="-90.0" text="Les antalgiques" />
+                        <Label layoutX="350.0" layoutY="365.0" rotate="-90.0" text="Les bains de bouche" />
+                        <Label layoutX="342.0" layoutY="158.0" rotate="-90.0" text="Les antibiotiques" />
+                        <GridPane layoutX="20.0" layoutY="111.0" prefHeight="400.0" prefWidth="291.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="62.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="120.0" minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="169.0" minHeight="7.0" prefHeight="32.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="232.0" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="208.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="242.0" minHeight="10.0" prefHeight="228.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Nom" />
+                              <TextField fx:id="medSec_nomtf" GridPane.rowIndex="1" />
+                              <Label text="Type" GridPane.rowIndex="2" />
+                              <ChoiceBox fx:id="medSec_typecb" prefHeight="25.0" prefWidth="343.0" GridPane.rowIndex="3" />
+                              <Label text="Description" GridPane.rowIndex="4" />
+                              <TextArea fx:id="medSec_descta" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="5" />
+                           </children>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../medicine.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Tab>
+            <Tab>
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <GridPane layoutX="14.0" layoutY="254.0" prefHeight="185.0" prefWidth="330.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Compte BD" />
+                              <Label layoutX="10.0" layoutY="17.0" text="Mot de passe" GridPane.rowIndex="1" />
+                              <Label layoutX="10.0" layoutY="47.0" text="Port" GridPane.rowIndex="2" />
+                              <Label layoutX="10.0" layoutY="77.0" text="BD" GridPane.rowIndex="3" />
+                              <TextField fx:id="sys_bd_account" GridPane.columnIndex="1" />
+                              <TextField fx:id="sys_bd_bd" layoutX="110.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <TextField fx:id="sys_bd_port" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <PasswordField fx:id="sys_bd_pwd" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                           </children>
+                        </GridPane>
+                        <Label layoutX="14.0" layoutY="25.0" text="Paramètres système:">
+                           <font>
+                              <Font name="Algerian" size="40.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="100.0" fitWidth="122.0" layoutX="104.0" layoutY="138.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../mysql.png" />
+                           </image>
+                        </ImageView>
+                        <GridPane layoutX="14.0" layoutY="104.0" prefHeight="33.0" prefWidth="730.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="278.0" minWidth="10.0" prefWidth="91.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="673.0" minWidth="10.0" prefWidth="658.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <ImageView fitHeight="75.0" fitWidth="73.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../attention.png" />
+                                 </image>
+                              </ImageView>
+                              <Label text="Attention! toute modification de ces champs risque de nuire au système!" textFill="#a81f1f" GridPane.columnIndex="1">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </GridPane>
+                        <Label layoutX="87.0" layoutY="223.0" text="Paramètres de la base de données:" />
+                        <GridPane layoutX="433.0" layoutY="254.0" prefHeight="100.0" prefWidth="330.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Label text="Pseudo de l'admin" />
+                              <Label layoutX="10.0" layoutY="17.0" text="Mot de passe" GridPane.rowIndex="1" />
+                              <TextField fx:id="sys_admin" GridPane.columnIndex="1" />
+                              <PasswordField fx:id="sys_pwd" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                           </children>
+                        </GridPane>
+                        <Label layoutX="518.0" layoutY="214.0" text="Paramètres du compte admin:" />
+                        <ImageView fitHeight="61.0" fitWidth="79.0" layoutX="567.0" layoutY="139.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../securite.png" />
+                           </image>
+                        </ImageView>
+                        <Button fx:id="sys_bd_saveButton" layoutX="14.0" layoutY="459.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="52.0">
+                           <graphic>
+                              <ImageView fitHeight="51.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../disquette.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <GridPane layoutX="295.0" layoutY="498.0" prefHeight="100.0" prefWidth="287.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="187.0" minWidth="10.0" prefWidth="144.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="160.0" minWidth="10.0" prefWidth="143.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="114.0" text="rénitialiser le system" />
+                              <Label layoutX="10.0" layoutY="17.0" text="supprimer les données" GridPane.columnIndex="1" />
+                              <Button fx:id="sys_reset" mnemonicParsing="false" prefHeight="48.0" prefWidth="52.0" GridPane.rowIndex="1">
+                                 <graphic>
+                                    <ImageView fitHeight="51.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../undo.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Button fx:id="sys_rmdb" mnemonicParsing="false" prefHeight="48.0" prefWidth="52.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <graphic>
+                                    <ImageView fitHeight="51.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../delete.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </GridPane>
+                        <Button fx:id="sys_saveButton" layoutX="422.0" layoutY="391.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="52.0">
+                           <graphic>
+                              <ImageView fitHeight="51.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../disquette.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <ImageView fitHeight="66.0" fitWidth="71.0" layoutX="255.0" layoutY="516.0" pickOnBounds="true" preserveRatio="true" />
+                     </children></AnchorPane>
+               </content>
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../gears.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Tab>
+         </tabs>
+      </TabPane>
+  </items>
+</SplitPane>
