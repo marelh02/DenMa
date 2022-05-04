@@ -123,4 +123,29 @@ public class Médicaments implements Serializable {
     public static void supprimerListeMédicaments() {
         new File(DenMaCore.path()+"\\Médicaments.dat").delete();
     }
+
+    public static void supprimerMédicament(String nom){
+
+        ArrayList<Médicaments> ltr =listeMédicaments();
+        for (int i=0;i< ltr.size();i++)
+        {
+            if (ltr.get(i).getNom().equals(nom))
+            {
+                ltr.remove(i);
+                break;
+            }
+        }
+        try
+        {
+            FileOutputStream fos = new FileOutputStream(DenMaCore.path()+"/Médicaments.dat",false);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(ltr);
+            oos.close();
+            fos.close();
+        }
+        catch (IOException ioe)
+        {
+            ioe.printStackTrace();
+        }
+    }
 }

@@ -431,7 +431,7 @@ public class DentistMenuController implements Initializable {
             if(medSec_nomtf.getText()!=null)
             {
                 if(!medSec_nomtf.getText().equals("")) {
-                    DenMaSQL.insérerNouveauMédicament(new Médicaments(medSec_nomtf.getText(),
+                    Médicaments.ajouterMédicament(new Médicaments(medSec_nomtf.getText(),
                             medSec_typecb.getValue(), medSec_descta.getText()));
                     initMedSection();
                 }
