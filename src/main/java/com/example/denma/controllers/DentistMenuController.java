@@ -113,9 +113,13 @@ public class DentistMenuController implements Initializable {
             interventionLVInit();
             sexStatInit();
             soinsStatInit();
+            //initialise la section des stats  de l'évolution des clients au cours du temps
             evoStatsInit();
             radioStatsInit();
+            //initialise la section stats des interventions
             interventionStatsInit();
+            //initialise la section médicale
+            initMedSection();
             ajouterNouveauPatient.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
@@ -395,16 +399,16 @@ public class DentistMenuController implements Initializable {
     //////////////////////////Pour la gestion des médicaments///////
 
     @FXML
-    private ListView<?> medSec_antalgiques;
+    private ListView<String> medSec_antalgiques;
 
     @FXML
-    private ListView<?> medSec_antibiotiques;
+    private ListView<String> medSec_antibiotiques;
 
     @FXML
-    private ListView<?> medSec_antiinflammatoire;
+    private ListView<String> medSec_antiinflammatoire;
 
     @FXML
-    private ListView<?> medSec_bainsbouches;
+    private ListView<String> medSec_bainsbouches;
 
     @FXML
     private Button medSec_delb;
@@ -423,7 +427,60 @@ public class DentistMenuController implements Initializable {
 
     public void initMedSection(){
         medSec_typecb.setItems(FXCollections.observableArrayList(Médicaments.typesMédicaments()));
-        //medSec_typecb.setOnAction(actionEvent -> );
+        medSec_sauvb.setOnAction(actionEvent -> {
+            if(medSec_nomtf.getText()!=null)
+            {
+                if(!medSec_nomtf.getText().equals("")) {
+                    DenMaSQL.insérerNouveauMédicament(new Médicaments(medSec_nomtf.getText(),
+                            medSec_typecb.getValue(), medSec_descta.getText()));
+                    initMedSection();
+                }
+            }
+        });
+        medSec_delb.setOnAction(actionEvent -> {
+            DenMaSQL.deleteFromMedicineTable(medSec_nomtf.getText());
+            initMedSection();
+        });
+        medSec_antalgiques.setItems(DenMaSQL.getMedicineListLite("Antalgique"));
+        medSec_antalgiques.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                Médicaments med=DenMaSQL.getMedicine(newValue);
+                medSec_descta.setText(med.getDescription());
+                medSec_nomtf.setText(med.getNom());
+                medSec_typecb.setValue(med.getType());
+            }
+        });
+        medSec_antibiotiques.setItems(DenMaSQL.getMedicineListLite("Antibiotique"));
+        medSec_antibiotiques.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                Médicaments med=DenMaSQL.getMedicine(newValue);
+                medSec_descta.setText(med.getDescription());
+                medSec_nomtf.setText(med.getNom());
+                medSec_typecb.setValue(med.getType());
+            }
+        });
+        medSec_antiinflammatoire.setItems(DenMaSQL.getMedicineListLite("Anti-inflammatoire"));
+        medSec_antiinflammatoire.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                Médicaments med=DenMaSQL.getMedicine(newValue);
+                medSec_descta.setText(med.getDescription());
+                medSec_nomtf.setText(med.getNom());
+                medSec_typecb.setValue(med.getType());
+            }
+        });
+        medSec_bainsbouches.setItems(DenMaSQL.getMedicineListLite("Bain de bouche"));
+        medSec_bainsbouches.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                Médicaments med=DenMaSQL.getMedicine(newValue);
+                medSec_descta.setText(med.getDescription());
+                medSec_nomtf.setText(med.getNom());
+                medSec_typecb.setValue(med.getType());
+            }
+        });
     }
 
 
@@ -470,6 +527,8 @@ public class DentistMenuController implements Initializable {
 
         sys_rmdb.setOnAction(actionEvent -> {
             DenMaSQL.supprimerTablePatients();
+            Médicaments.supprimerListeMédicaments();
+            Médicaments.ajouterMédicamentsBasiques();
             DenMaSQL.créerTablePatients();
             DMCStage.close();
         });

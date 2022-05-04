@@ -88,80 +88,6 @@ public class DenMaSQL implements Serializable{
     }
 
 
-    //////////////////// CR2ATION DES TABLES ////////////////
-
-    public static void créerTablePatients() {
-        DenMaSQL dmsql=getDBInformation();
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con= DriverManager.getConnection("jdbc:mysql://localhost:"+dmsql.getPort()+"/"+dmsql.getDB(),dmsql.getUser(), dmsql.getPassword());
-            String query ="create table patient (idPatient int primary key, dateNaissance Date, cin varchar(10), nom varchar(20), prenom varchar(20), sexe char,idCouverture varchar(10), typeCouverture varchar(20), UNIQUE (idCouverture))";
-            con.createStatement().execute(query);
-            System.out.println("Création de la table des patients avec succés\n");
-            con.close();
-        }catch(Exception e){ System.out.println(e);}
-    }
-
-    public static void créerTableMédicaments() {
-        DenMaSQL dmsql=getDBInformation();
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con= DriverManager.getConnection("jdbc:mysql://localhost:"+dmsql.getPort()+"/"+dmsql.getDB(),dmsql.getUser(), dmsql.getPassword());
-            String query ="create table medicament (nom varchar(20) primary key, type varchar(20), description varchar(100));";
-            con.createStatement().execute(query);
-            System.out.println("Création de la table des médicaments avec succés\n");
-            con.close();
-        }catch(Exception e){ System.out.println(e);}
-    }
-
-
-    //////////////////// SUPPRESSION DES TABLES ////////////////
-
-    public static void supprimerTablePatients() {
-        DenMaSQL dmsql=getDBInformation();
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con= DriverManager.getConnection("jdbc:mysql://localhost:"+dmsql.getPort()+"/"+dmsql.getDB(),dmsql.getUser(), dmsql.getPassword());
-            String query ="DROP TABLE patient";
-            con.createStatement().execute(query);
-            System.out.println("Suppression faite avec succés\n");
-            con.close();
-        }catch(Exception e){ System.out.println(e);}
-    }
-
-    public static void supprimerTableMédicaments() {
-        DenMaSQL dmsql=getDBInformation();
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con= DriverManager.getConnection("jdbc:mysql://localhost:"+dmsql.getPort()+"/"+dmsql.getDB(),dmsql.getUser(), dmsql.getPassword());
-            String query ="DROP TABLE medicament";
-            con.createStatement().execute(query);
-            System.out.println("Suppression faite avec succés\n");
-            con.close();
-        }catch(Exception e){ System.out.println(e);}
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-    ////////////////////////////REQËTES SUR LES TABLES
-
-    //pour les patients//
-
-    public static void insérerNouveauPatient(Patient pat) {
-        DenMaSQL dmsql=getDBInformation();
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con= DriverManager.getConnection("jdbc:mysql://localhost:"+dmsql.getPort()+"/"+dmsql.getDB(),dmsql.getUser(), dmsql.getPassword());
-            String query =String.format("insert into patient(idPatient,dateNaissance, cin, nom, prenom, sexe,idCouverture, typeCouverture) values(%s,'%s','%s','%s','%s','%s','%s','%s')",pat.getIDPatient(),pat.getDateNaissance().toString(),pat.getCIN(),pat.getNom(),pat.getPrenom(),pat.getSexe(),pat.getCm().getIDCouverture(),pat.getCm().getTypeCouverture());
-            int qs=con.createStatement().executeUpdate(query);
-            con.close();
-        }catch(Exception e){ System.out.println(e);}
-    }
 
     //pour avoir la liste des utilisateurs
 
@@ -186,7 +112,42 @@ public class DenMaSQL implements Serializable{
         return obsList;
     }
 
-    //pour avoir la liste des patients
+    //////////////////// POur les patients ////////////////
+
+    public static void créerTablePatients() {
+        DenMaSQL dmsql=getDBInformation();
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con= DriverManager.getConnection("jdbc:mysql://localhost:"+dmsql.getPort()+"/"+dmsql.getDB(),dmsql.getUser(), dmsql.getPassword());
+            String query ="create table patient (idPatient int primary key, dateNaissance Date, cin varchar(10), nom varchar(20), prenom varchar(20), sexe char,idCouverture varchar(10), typeCouverture varchar(20), UNIQUE (idCouverture))";
+            con.createStatement().execute(query);
+            System.out.println("Création de la table des patients avec succés\n");
+            con.close();
+        }catch(Exception e){ System.out.println(e);}
+    }
+
+    public static void supprimerTablePatients() {
+        DenMaSQL dmsql=getDBInformation();
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con= DriverManager.getConnection("jdbc:mysql://localhost:"+dmsql.getPort()+"/"+dmsql.getDB(),dmsql.getUser(), dmsql.getPassword());
+            String query ="DROP TABLE patient";
+            con.createStatement().execute(query);
+            System.out.println("Suppression faite avec succés\n");
+            con.close();
+        }catch(Exception e){ System.out.println(e);}
+    }
+
+    public static void insérerNouveauPatient(Patient pat) {
+        DenMaSQL dmsql=getDBInformation();
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con= DriverManager.getConnection("jdbc:mysql://localhost:"+dmsql.getPort()+"/"+dmsql.getDB(),dmsql.getUser(), dmsql.getPassword());
+            String query =String.format("insert into patient(idPatient,dateNaissance, cin, nom, prenom, sexe,idCouverture, typeCouverture) values(%s,'%s','%s','%s','%s','%s','%s','%s')",pat.getIDPatient(),pat.getDateNaissance().toString(),pat.getCIN(),pat.getNom(),pat.getPrenom(),pat.getSexe(),pat.getCm().getIDCouverture(),pat.getCm().getTypeCouverture());
+            int qs=con.createStatement().executeUpdate(query);
+            con.close();
+        }catch(Exception e){ System.out.println(e);}
+    }
 
     public static ObservableList<Patient> getPatientsSQL() {
         DenMaSQL dmsql=getDBInformation();
@@ -210,34 +171,25 @@ public class DenMaSQL implements Serializable{
         return  patientList;
     }
 
-    //pour supprimer une ligne de la table des patients
-
-     public static void deleteFromPatientTable(int id) {
-         DenMaSQL dmsql=getDBInformation();
-         try {
-             Class.forName("com.mysql.cj.jdbc.Driver");
-             Connection con= DriverManager.getConnection("jdbc:mysql://localhost:"+dmsql.getPort()+"/"+dmsql.getDB(),dmsql.getUser(), dmsql.getPassword());
-             con.createStatement().executeUpdate("delete from patient where idPatient="+id);
-            con.close();
-         } catch (ClassNotFoundException e) {
-             e.printStackTrace();
-         } catch (SQLException e) {
-             e.printStackTrace();
-         }
-     }
-
-     //pour les médicaments//
-
-    public static void insérerNouveauMédicament(Médicaments med) {
+    public static void deleteFromPatientTable(int id) {
         DenMaSQL dmsql=getDBInformation();
-        try{
+        try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con= DriverManager.getConnection("jdbc:mysql://localhost:"+dmsql.getPort()+"/"+dmsql.getDB(),dmsql.getUser(), dmsql.getPassword());
-            String query =String.format("insert into medicament(nom, type, description) values(%s,'%s','%s')",med.getNom(),med.getType(),med.getDescription());
-            int qs=con.createStatement().executeUpdate(query);
+            con.createStatement().executeUpdate("delete from patient where idPatient="+id);
             con.close();
-        }catch(Exception e){ System.out.println(e);}
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
+
+
+    //////////////////// Pour les médicaments ////////////////
+
+
 
     //pour supprimer une ligne de la table des médicaments
 
@@ -255,9 +207,9 @@ public class DenMaSQL implements Serializable{
         }
     }
 
-     //pour avoir la liste des médicaments selon leur typ
-    //version complète
+     /////pour avoir la liste des médicaments selon leur typ
 
+    //version complète
     public static ObservableList<Médicaments> getMedicineListFull(String type) {
         DenMaSQL dmsql=getDBInformation();
         ObservableList<Médicaments> obsList = FXCollections.observableArrayList();
@@ -278,18 +230,18 @@ public class DenMaSQL implements Serializable{
         }
         return obsList;
     }
-    //version sans description
 
-    public static ObservableList<Médicaments> getMedicineListLite(String type) {
+    //version sans description
+    public static ObservableList<String> getMedicineListLite(String med_type) {
         DenMaSQL dmsql=getDBInformation();
-        ObservableList<Médicaments> obsList = FXCollections.observableArrayList();
+        ObservableList<String> obsList = FXCollections.observableArrayList();
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con= DriverManager.getConnection("jdbc:mysql://localhost:"+dmsql.getPort()+"/"+dmsql.getDB(),dmsql.getUser(), dmsql.getPassword());
-            ResultSet rs=con.createStatement().executeQuery("select * from medicament where type like "+type);
+            ResultSet rs=con.createStatement().executeQuery("select * from medicament where type like "+med_type);
             while(rs.next())
             {
-                obsList.add(new Médicaments(rs.getString("nom"), rs.getString("type"),null));
+                obsList.add(rs.getString("nom"));
             }
             rs.close();
             con.close();
@@ -299,6 +251,27 @@ public class DenMaSQL implements Serializable{
             e.printStackTrace();
         }
         return obsList;
+    }
+
+    public static Médicaments getMedicine(String med_type) {
+        DenMaSQL dmsql=getDBInformation();
+        Médicaments med=null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con= DriverManager.getConnection("jdbc:mysql://localhost:"+dmsql.getPort()+"/"+dmsql.getDB(),dmsql.getUser(), dmsql.getPassword());
+            ResultSet rs=con.createStatement().executeQuery("select * from medicament where type like "+med_type);
+            while(rs.next())
+            {
+                med=new Médicaments(rs.getString(1), rs.getString(2), rs.getString(3) );
+            }
+            rs.close();
+            con.close();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return med;
     }
 
      //////////////////////////////////////////////////////////

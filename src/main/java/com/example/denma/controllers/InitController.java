@@ -3,8 +3,7 @@ package com.example.denma.controllers;
 import com.example.denma.DenMaCore;
 import com.example.denma.DenMaSQL;
 import com.example.denma.HelloApplication;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import com.example.denma.Médicaments;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -81,6 +80,7 @@ public class InitController implements Initializable {
             DenMaCore.writeDentisteCabinetData(clinParam_dentiste.getText(),clinParam_clinique.getText(),
                     clinParam_adresse.getText(),clinParam_tel.getText());
             DenMaSQL.créerTablePatients();
+            Médicaments.ajouterMédicamentsBasiques();
             ICStage.close();
             new DentistMenuController().showStage();
         });
