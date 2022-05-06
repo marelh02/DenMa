@@ -4,6 +4,9 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Médicaments implements Serializable {
+
+    private static final long serialVersionUID =3294587975781247036L;
+
     private String nom,type,description;
 
     public Médicaments(String nom,String type,String description) {
@@ -34,6 +37,11 @@ public class Médicaments implements Serializable {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    @Override
+    public String toString() {
+        return this.nom;
     }
 
     public static void main(String[] args) {
@@ -118,6 +126,23 @@ public class Médicaments implements Serializable {
             e.printStackTrace();
         }
         return listMed;
+    }
+
+    public static ArrayList<Médicaments> listeMédicamentsFull(String type) {
+        ArrayList<Médicaments> listMed = new ArrayList<>();
+        for(Médicaments m:listeMédicaments())
+            if(m.getType().equals(type)) listMed.add(m);
+        return listMed;
+    }
+
+    public static ArrayList<Médicaments> listeMédicamentsLite(String type) {
+        ArrayList<Médicaments> listMed = listeMédicaments();
+        ArrayList<Médicaments> neoListMed =new ArrayList<>();
+        for(Médicaments m:listMed)
+        {
+            if(m.getType().equals(type)) neoListMed.add(new Médicaments(m.getNom(),m.getType(),null));
+        }
+        return neoListMed;
     }
 
     public static void supprimerListeMédicaments() {

@@ -68,14 +68,14 @@ public class DenMaStatsNDocs implements Serializable {
         ActeMedicale am = amp.getActeMedicale();
         String cm = x.getCm().getTypeCouverture() != null ? x.getCm().getTypeCouverture() : "sans";
         String infosPerso = "Nom: " + x.getNom() + " " + x.getPrenom() + "\nCouverture médicale: " + cm;
-        String infosAM = "ID du soin: " + am.getIDSoin() + "\nDebut du soin: " + am.getDebutSoin() + "\nFin du soin: " + am.getFinSoin() + "\nPrix comptabilisé: " + am.getPrixComptabilise() + " Dhs";
+        String infosAM = "ID du soin: " + am.getIDSoin() + "\nDebut du soin: " + am.getDebutSoin() + "\nFin du soin: " + am.getFinSoin();
 
 
         float[] cw = {300F, 300F};
         float[] sc = {600F};
         Table container = new Table(sc);
         Table tRadios = new Table(cw);
-        Table tInterv = new Table(cw);
+        Table tMed = new Table(cw);
 
         tRadios.addCell(new Cell().add("Date prévue").setFontColor(Color.BLUE));
         tRadios.addCell(new Cell().add("Type de la radio").setFontColor(Color.BLUE));
@@ -83,11 +83,11 @@ public class DenMaStatsNDocs implements Serializable {
             tRadios.addCell(new Cell().add(rad.getDateRadio() == null ? "" : rad.getDateRadio().toString()));
             tRadios.addCell(new Cell().add(rad.getTypeRadio() == null ? "" : rad.getTypeRadio()));
         }
-        tInterv.addCell(new Cell().add("Prix en Dirhames").setFontColor(Color.BLUE));
-        tInterv.addCell(new Cell().add("Catégorie").setFontColor(Color.BLUE));
-        for (Intervention inter : amp.getInterventions()) {
-            tInterv.addCell(new Cell().add("" + inter.getPrixBase()));
-            tInterv.addCell(new Cell().add(inter.getType() == null ? "" : inter.getType()));
+        tMed.addCell(new Cell().add("Nom du médicament").setFontColor(Color.BLUE));
+        tMed.addCell(new Cell().add("Catégorie").setFontColor(Color.BLUE));
+        for (Médicaments m: amp.getMédicaments()) {
+            tMed.addCell(new Cell().add("" + m.getNom()));
+            tMed.addCell(new Cell().add("" + m.getType()));
         }
         container.addCell(new Cell().add("Informations du patient:").setBorder(Border.NO_BORDER).setFontColor(Color.RED));
         container.addCell(new Cell().add(infosPerso).setBorder(Border.NO_BORDER));
@@ -99,8 +99,8 @@ public class DenMaStatsNDocs implements Serializable {
         container.addCell(new Cell().add("Radios préscrits:").setBorder(Border.NO_BORDER).setFontColor(Color.RED));
         container.addCell(new Cell().add(tRadios).setBorder(Border.NO_BORDER));
         container.addCell(new Cell().setBorder(Border.NO_BORDER));
-        container.addCell(new Cell().add("Interventions préscrites:").setBorder(Border.NO_BORDER).setFontColor(Color.RED));
-        container.addCell(new Cell().add(tInterv).setBorder(Border.NO_BORDER));
+        container.addCell(new Cell().add("Médicaments préscrits:").setBorder(Border.NO_BORDER).setFontColor(Color.RED));
+        container.addCell(new Cell().add(tMed).setBorder(Border.NO_BORDER));
 
         return container;
     }
@@ -110,7 +110,7 @@ public class DenMaStatsNDocs implements Serializable {
     public static void writeOrdonnance(String nomDoc, String nomClinique, String adresse,
                                        String tel, Patient pat, ActeMedPat amp) {
         System.out.println(new File("C:\\DenMa\\ordonnances").mkdir() ? "création du répertoire DenMa\\ordonnances" : "répertoire n'a pas étais créé ou existe déja");
-        String path = "C:\\DenMa\\ordonnances\\ordonnace" + pat.getNom() +"_"+ pat.getIDPatient() + ".pdf";
+        String path = "C:\\DenMa\\ordonnances\\ordonnace_" + pat.getNom() +"_"+ pat.getIDPatient() + ".pdf";
         try {
             PdfWriter pw = new PdfWriter(path);
             PdfDocument pdfDoc = new PdfDocument(pw);

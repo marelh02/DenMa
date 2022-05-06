@@ -92,7 +92,7 @@ public class DentistMenuController implements Initializable {
             FXMLLoader DMCLoader = new FXMLLoader(HelloApplication.class.getResource("dentist-menu.fxml"));
             DMCLoader.setController(this);
             DMCStage.setScene(new Scene(DMCLoader.load()));
-            DMCStage.setTitle("DenMa : Menu dentiste");
+            DMCStage.setTitle("tooth fairy: Menu dentiste");
             DMCStage.getIcons().add(new Image("DenMa.png"));
 
         }catch (IOException e){
@@ -200,9 +200,12 @@ public class DentistMenuController implements Initializable {
         radLV.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TypeRadio>() {
             @Override
             public void changed(ObservableValue<? extends TypeRadio> observable, TypeRadio oldValue, TypeRadio newValue) {
-                secRad_idtf.setText(newValue.getIDTypeRadio());
-                secRad_nomtf.setText(newValue.getNomTypeRadio());
-                secRad_descta.setText(newValue.getDescription());
+                if(newValue!=null)
+                {
+                    secRad_idtf.setText(newValue.getIDTypeRadio());
+                    secRad_nomtf.setText(newValue.getNomTypeRadio());
+                    secRad_descta.setText(newValue.getDescription());
+                }
             }
         });
 
@@ -277,9 +280,12 @@ public class DentistMenuController implements Initializable {
         interventionLV.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<CategorieIntervention>() {
             @Override
             public void changed(ObservableValue<? extends CategorieIntervention> observable, CategorieIntervention oldValue, CategorieIntervention newValue) {
-            secInt_idtf.setText(newValue.getIDCategorie());
-            secInt_typetf.setText(newValue.getType());
-            secInt_prixtf.setText(newValue.getPrixBase()+"");
+                if(newValue!=null)
+                {
+                    secInt_idtf.setText(newValue.getIDCategorie());
+                    secInt_typetf.setText(newValue.getType());
+                    secInt_prixtf.setText(newValue.getPrixBase() + "");
+                }
             }
         });
 
@@ -399,16 +405,16 @@ public class DentistMenuController implements Initializable {
     //////////////////////////Pour la gestion des médicaments///////
 
     @FXML
-    private ListView<String> medSec_antalgiques;
+    private ListView<Médicaments> medSec_antalgiques;
 
     @FXML
-    private ListView<String> medSec_antibiotiques;
+    private ListView<Médicaments> medSec_antibiotiques;
 
     @FXML
-    private ListView<String> medSec_antiinflammatoire;
+    private ListView<Médicaments> medSec_antiinflammatoire;
 
     @FXML
-    private ListView<String> medSec_bainsbouches;
+    private ListView<Médicaments> medSec_bainsbouches;
 
     @FXML
     private Button medSec_delb;
@@ -438,49 +444,57 @@ public class DentistMenuController implements Initializable {
             }
         });
         medSec_delb.setOnAction(actionEvent -> {
-            DenMaSQL.deleteFromMedicineTable(medSec_nomtf.getText());
+            Médicaments.supprimerMédicament(medSec_nomtf.getText());
             initMedSection();
         });
-        medSec_antalgiques.setItems(DenMaSQL.getMedicineListLite("Antalgique"));
-        medSec_antalgiques.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+        medSec_antalgiques.setItems(FXCollections.observableArrayList(Médicaments.listeMédicamentsFull("Antalgique")));
+        medSec_antalgiques.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Médicaments>() {
             @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                Médicaments med=DenMaSQL.getMedicine(newValue);
-                medSec_descta.setText(med.getDescription());
-                medSec_nomtf.setText(med.getNom());
-                medSec_typecb.setValue(med.getType());
+            public void changed(ObservableValue<? extends Médicaments> observable, Médicaments oldValue, Médicaments newValue) {             
+                if(newValue!=null)
+                {
+                    medSec_descta.setText(newValue.getDescription());
+                    medSec_nomtf.setText(newValue.getNom());
+                    medSec_typecb.setValue(newValue.getType());
+                }
             }
         });
-        medSec_antibiotiques.setItems(DenMaSQL.getMedicineListLite("Antibiotique"));
-        medSec_antibiotiques.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+        medSec_antibiotiques.setItems(FXCollections.observableArrayList(Médicaments.listeMédicamentsFull("Antibiotique")));
+        medSec_antibiotiques.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Médicaments>() {
             @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                Médicaments med=DenMaSQL.getMedicine(newValue);
-                medSec_descta.setText(med.getDescription());
-                medSec_nomtf.setText(med.getNom());
-                medSec_typecb.setValue(med.getType());
+            public void changed(ObservableValue<? extends Médicaments> observable, Médicaments oldValue, Médicaments newValue) {
+                if (newValue != null) {
+                    medSec_descta.setText(newValue.getDescription());
+                    medSec_nomtf.setText(newValue.getNom());
+                    medSec_typecb.setValue(newValue.getType());
+                }
             }
         });
-        medSec_antiinflammatoire.setItems(DenMaSQL.getMedicineListLite("Anti-inflammatoire"));
-        medSec_antiinflammatoire.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+        medSec_antiinflammatoire.setItems(FXCollections.observableArrayList(Médicaments.listeMédicamentsFull("Anti-inflammatoire")));
+        medSec_antiinflammatoire.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Médicaments>() {
             @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                Médicaments med=DenMaSQL.getMedicine(newValue);
-                medSec_descta.setText(med.getDescription());
-                medSec_nomtf.setText(med.getNom());
-                medSec_typecb.setValue(med.getType());
+            public void changed(ObservableValue<? extends Médicaments> observable, Médicaments oldValue, Médicaments newValue) {
+                if(newValue!=null)
+                {
+                    medSec_descta.setText(newValue.getDescription());
+                    medSec_nomtf.setText(newValue.getNom());
+                    medSec_typecb.setValue(newValue.getType());
+                }
             }
         });
-        medSec_bainsbouches.setItems(DenMaSQL.getMedicineListLite("Bain de bouche"));
-        medSec_bainsbouches.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+        medSec_bainsbouches.setItems(FXCollections.observableArrayList(Médicaments.listeMédicamentsFull("Bain de bouche")));
+        medSec_bainsbouches.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Médicaments>() {
             @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                Médicaments med=DenMaSQL.getMedicine(newValue);
-                medSec_descta.setText(med.getDescription());
-                medSec_nomtf.setText(med.getNom());
-                medSec_typecb.setValue(med.getType());
+            public void changed(ObservableValue<? extends Médicaments> observable, Médicaments oldValue, Médicaments newValue) {
+                if(newValue!=null)
+                {
+                    medSec_descta.setText(newValue.getDescription());
+                    medSec_nomtf.setText(newValue.getNom());
+                    medSec_typecb.setValue(newValue.getType());
+                }
             }
         });
+        medSec_bainsbouches.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
 

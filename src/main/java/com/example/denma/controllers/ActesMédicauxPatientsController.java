@@ -1,6 +1,7 @@
 package com.example.denma.controllers;
 
 import com.example.denma.*;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,6 +17,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
@@ -93,13 +95,19 @@ public class ActesMédicauxPatientsController implements Initializable{
     private TableView<Médicaments> med_TV;
 
     @FXML
+    private TableColumn<Médicaments, String> colm_nom;
+
+    @FXML
+    private TableColumn<Médicaments, String> colm_type;
+
+    @FXML
     private Button med_delete;
 
     @FXML
     private ChoiceBox<String> med_type;
 
     @FXML
-    private ChoiceBox<String> med_nom;
+    private ChoiceBox<Médicaments> med_nom;
 
     @FXML
     private Button med_pop;
@@ -108,6 +116,7 @@ public class ActesMédicauxPatientsController implements Initializable{
 
     ObservableList<Intervention> interventionsList = FXCollections.observableArrayList();
     ObservableList<Radio> radiosList = FXCollections.observableArrayList();
+    ObservableList<Médicaments> medList=FXCollections.observableArrayList();
     Patient patient;
 
     ActeMedPat amp=null;
@@ -135,6 +144,7 @@ public class ActesMédicauxPatientsController implements Initializable{
     }
 
     public void initialize(URL location, ResourceBundle resources){
+        medSectionInit();
         ToggleGroup group = new ToggleGroup();
         acteTérminé.setToggleGroup(group);
         acteEnCours.setToggleGroup(group);
@@ -210,6 +220,7 @@ public class ActesMédicauxPatientsController implements Initializable{
     }
 
     public void initTables() {
+        //les interventions
         coli_act.setCellFactory(tc->new ActionsInterventions<>(this,amp));
         coli_dp.setCellValueFactory(new PropertyValueFactory<>("DatePrevue"));
         coli_dr.setCellValueFactory(new PropertyValueFactory<>("DateReelle"));
@@ -220,10 +231,18 @@ public class ActesMédicauxPatientsController implements Initializable{
         colr_chem.setCellValueFactory(new PropertyValueFactory<>("Cheminimage"));
         colr_dr.setCellValueFactory(new PropertyValueFactory<>("DateRadio"));
         colr_id.setCellValueFactory(new PropertyValueFactory<>("IDRadio"));
+        //les médicaments
+        colm_nom.setCellValueFactory(new PropertyValueFactory<>("Nom"));
+        colm_type.setCellValueFactory(new PropertyValueFactory<>("Type"));
+
         fillInterventionsList();
         fillRadiosList();
+        fillMedicamentList();
+
         radios_TV.setItems(radiosList);
         interventions_TV.setItems(interventionsList);
+        med_TV.setItems(medList);
+
     }
 
     public void fillInterventionsList(){
@@ -247,6 +266,14 @@ public class ActesMédicauxPatientsController implements Initializable{
         }
     }
 
+    public void fillMedicamentList() {
+        if (amp.getMédicaments()!=null)
+        {
+            medList.clear();
+            medList.addAll(amp.getMédicaments());
+        }
+    }
+
     public void ajouterRadioButtonEvent() {new RadioFXMLController(this,amp,null).showStage();}
 
     public void ajouterInterventionButtonEvent() {new InterventionFXMLController(amp,this,null).showStage();}
@@ -261,5 +288,42 @@ public class ActesMédicauxPatientsController implements Initializable{
         double prixTotal=0;
         for (Intervention intervention: interventionsList) prixTotal+=intervention.getPrixBase();
         return prixTotal;
+    }
+
+    ///le médicaments///
+    public void medSectionInit()
+    {
+        med_type.setItems(FXCollections.observableArrayList(Médicaments.typesMédicaments()));
+        med_type.getSelectionModel().selectedItemProperty().addListener(
+                (ObservableValue<? extends String> observable, String oldValue, String newValue) ->
+                {
+                    if(newValue!=null)
+                        med_nom.setItems(FXCollections.observableArrayList(
+                                Médicaments.listeMédicamentsLite(newValue)));
+                });
+        med_pop.setOnAction(actionEvent -> {
+            if (amp.getMédicaments()==null) {
+                ArrayList<Médicaments> medArr=new ArrayList<>();
+                medArr.add(new Médicaments(med_nom.getValue().getNom(),med_type.getValue(),null));
+                amp.setMédicaments(medArr);
+                fillMedicamentList();
+            }
+            else {
+                amp.getMédicaments().add(new Médicaments(med_nom.getValue().getNom(), med_type.getValue(), null));
+                fillMedicamentList();
+            }
+        });
+        med_delete.setOnAction(actionEvent -> {
+            Médicaments delMed=med_TV.getSelectionModel().getSelectedItem();
+            for(int i=0;i<amp.getMédicaments().size();i++)
+            {
+                if(amp.getMédicaments().get(i).getNom().equals(delMed.getNom()))
+                {
+                    amp.getMédicaments().remove(i);
+                    break;
+                }
+            }
+            fillMedicamentList();
+        });
     }
 }

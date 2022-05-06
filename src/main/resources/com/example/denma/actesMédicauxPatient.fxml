@@ -93,8 +93,8 @@
       </Button>
       <TableView fx:id="med_TV" layoutX="454.0" layoutY="143.0" prefHeight="200.0" prefWidth="363.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="145.0">
         <columns>
-          <TableColumn prefWidth="164.0" text="Nom" />
-          <TableColumn prefWidth="142.0" text="Type" />
+          <TableColumn fx:id="colm_nom" prefWidth="164.0" text="Nom" />
+          <TableColumn fx:id="colm_type" prefWidth="142.0" text="Type" />
         </columns>
       </TableView>
       <Label layoutX="459.0" layoutY="22.0" text="Liste des médicaments:" />
